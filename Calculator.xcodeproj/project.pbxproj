@@ -99,8 +99,8 @@
 			children = (
 				23783A611D79D50A0008669F /* AppDelegate.swift */,
 				23783A631D79D50A0008669F /* ViewController.swift */,
-				23783A651D79D50A0008669F /* Main.storyboard */,
 				23783A681D79D50A0008669F /* Assets.xcassets */,
+				23783A651D79D50A0008669F /* Main.storyboard */,
 				23783A6A1D79D50A0008669F /* LaunchScreen.storyboard */,
 				23783A6D1D79D50A0008669F /* Info.plist */,
 			);
@@ -193,6 +193,7 @@
 				TargetAttributes = {
 					23783A5D1D79D50A0008669F = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 2A9ZA2UBWH;
 					};
 					23783A711D79D50A0008669F = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -401,10 +402,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Calculator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.csumb.cst485.gand4052.Calculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -412,10 +416,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Calculator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.csumb.cst485.gand4052.Calculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
