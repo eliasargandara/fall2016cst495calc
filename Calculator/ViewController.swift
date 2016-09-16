@@ -11,39 +11,27 @@ import UIKit
 class ViewController: UIViewController {
     
     @IBOutlet weak var display: UILabel!
-    
+    @IBOutlet weak var opHistoryDisplay: UILabel!
     let π = M_PI
+    
+    // Flags for working with user's input
     var userIsInTheMiddleOfTypingANumber: Bool = false
     var isDecimalAlreadyInNumber: Bool = false
     
-    var operandStack = Array<Double>()
+    var brain = CalculatorBrain()
 
     @IBAction func operate(sender: UIButton) {
-        let operation = sender.currentTitle!
         if userIsInTheMiddleOfTypingANumber {
             enter()
         }
-        switch operation {
-        case "×": performOperation { $0 * $1 }
-        case "÷": performOperation { $1 / $0 }
-        case "+": performOperation { $0 + $1 }
-        case "-": performOperation { $1 - $0 }
-        case "√": performOperation { sqrt($0) }
-        case "sin": performOperation { sin($0) }
-        case "cos": performOperation { cos($0) }
-        default: break
-        }
-    }
-    
-    private func performOperation(operation: (Double, Double) -> Double) {
-        if operandStack.count >= 2 {
-            displayValue = operation(operandStack.removeLast(), operandStack.removeLast() )
-        }
-    }
-    
-    private func performOperation(operation: Double -> Double) {
-        if operandStack.count >= 1 {
-            displayValue = operation(operandStack.removeLast() )
+        if let operation = sender.currentTitle {
+            if let result = brain.performOperation(operation) {
+                displayValue = result
+                opHistoryDisplay.text = brain.getOpHistoryRepresentation()
+            }
+            else {
+                displayValue = 0
+            }
         }
     }
     
@@ -58,6 +46,14 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func appendPIValue() {
+        if userIsInTheMiddleOfTypingANumber {
+            enter();
+        }
+        display.text = String(π)
+        isDecimalAlreadyInNumber = true;
+    }
+    
     @IBAction func appendDecimal() {
         if !isDecimalAlreadyInNumber {
             display.text = (display.text!) + "."
@@ -65,36 +61,30 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func insertSymbolicValue(sender: UIButton) {
-        let symbol = sender.currentTitle!
-        switch symbol {
-        case "π": insertValueIntoKeypad(π)
-        default: break;
-        }
-    }
-    
-    private func insertValueIntoKeypad(value: Double) {
-        display.text = "\(value)"
-        userIsInTheMiddleOfTypingANumber = false
-        isDecimalAlreadyInNumber = false
-    }
-    
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
         isDecimalAlreadyInNumber = false
-        operandStack.append(displayValue);
-        print("operandStack = \(operandStack)")
+        
+        if let result = brain.pushOperand(displayValue) {
+            displayValue = result
+        }
+        else {
+            displayValue = 0
+        }
     }
     
     @IBAction func clear() {
         userIsInTheMiddleOfTypingANumber = false
         isDecimalAlreadyInNumber = false
-        operandStack = Array<Double>()
         display.text = "0"
+        opHistoryDisplay.text = ""
+        
+        brain.reset()
     }
     
     var displayValue: Double {
         get {
+            // Set empty decimal input to zero to prevent NSNumberFormatter errors
             if display.text! == "." {
                 display.text = "0"
             }
