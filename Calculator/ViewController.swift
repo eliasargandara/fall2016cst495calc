@@ -88,6 +88,7 @@ class ViewController: UIViewController {
             if display.text! == "." {
                 display.text = "0"
             }
+            //print("Text: " + display.text!)
             return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
         }
         set {

@@ -83,7 +83,7 @@ class CalculatorBrain {
     
     func evaluate() -> Double? {
         let (result, remainder) = evaluate(opStack)
-        print("\(opStack) = \(result) with \(remainder) left over")
+        //print("\(opStack) = \(result) with \(remainder) left over")
         return result
     }
     
