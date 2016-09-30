@@ -22,6 +22,13 @@ class CalculatorBrain {
     // Dictrionary for storing variables in the calculator brain
     var variableValues = [String:Double]()
     
+    // Description will describe the content of the calculator brain
+    var description: String {
+        get {
+            return ""
+        }
+    }
+    
     private enum Op: CustomStringConvertible {
         case Operand(Double)
         case UnaryOperation(String, Double -> Double)
@@ -121,6 +128,7 @@ class CalculatorBrain {
     func reset() {
         opStack.removeAll()
         opHistoryStack.removeAll()
+        variableValues.removeAll()
     }
     
     func getOpHistoryRepresentation() -> String {

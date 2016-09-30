@@ -68,10 +68,10 @@ class ViewController: UIViewController {
             if let result = brain.pushOperand(displayValue!) {
                 displayValue = result
             }
+            else {
+                displayValue = nil
+            }
         }
-//        else {
-//            displayValue = nil
-//        }
     }
     
     @IBAction func clear() {
@@ -81,6 +81,23 @@ class ViewController: UIViewController {
         opHistoryDisplay.text = ""
         
         brain.reset()
+    }
+    
+    @IBAction func setMVariable() {
+        if displayValue != nil {
+            brain.variableValues["M"] = displayValue!
+        }
+        
+        userIsInTheMiddleOfTypingANumber = false
+    }
+    
+    @IBAction func pressMVariable() {
+        if let result = brain.pushOperand("M") {
+            displayValue = result
+        }
+        else {
+            displayValue = nil
+        }
     }
     
     var displayValue: Double? {
