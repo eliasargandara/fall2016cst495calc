@@ -87,10 +87,11 @@ class ViewController: UIViewController {
         get {
             // Set text to a valid value if the display text is not a valid value
             if display.text != nil {
-                let number = Double(display.text!)
-                if number != nil {
-                    let value = NSNumberFormatter().numberFromString(display.text!)!
-                    return value.doubleValue
+                let decimal = Double(display.text!)
+                if decimal != nil {
+                    //let value = NSNumberFormatter().numberFromString(display.text!)!
+                    //return value.doubleValue
+                    return decimal!
                 }
                 else {
                     return nil

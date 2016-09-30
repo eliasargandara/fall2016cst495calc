@@ -18,7 +18,10 @@ class CalculatorBrain {
     
     // Stack for storing operand and operation history
     private var opHistoryStack = [Op]()
-        
+    
+    // Dictrionary for storing variables in the calculator brain
+    var variableValues = [String:Double]()
+    
     private enum Op: CustomStringConvertible {
         case Operand(Double)
         case UnaryOperation(String, Double -> Double)
@@ -88,9 +91,23 @@ class CalculatorBrain {
     }
     
     func pushOperand(operand: Double) -> Double? {
-        opStack.append(Op.Operand(operand) );
+        opStack.append(Op.Operand(operand) )
         opHistoryStack.append(Op.Operand(operand) )
         return evaluate()
+    }
+    
+    // Allows the user to use a stored variable to evaluate an expression
+    func pushOperand(symbol: String) -> Double? {
+        let variableValue = variableValues[symbol]
+        if variableValue != nil {
+            let operand = variableValue!
+            opStack.append(Op.Operand(operand) )
+            opHistoryStack.append(Op.Operand(operand) )
+            return evaluate()
+        }
+        else {
+            return nil
+        }
     }
     
     func performOperation(symbol: String) -> Double? {
