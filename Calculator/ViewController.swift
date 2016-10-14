@@ -30,7 +30,7 @@ class ViewController: UIViewController {
                 opHistoryDisplay.text = brain.getOpHistoryRepresentation()
             }
             else {
-                displayValue = 0
+                displayValue = nil
             }
         }
     }
@@ -64,36 +64,68 @@ class ViewController: UIViewController {
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
         isDecimalAlreadyInNumber = false
-        
-        if let result = brain.pushOperand(displayValue) {
-            displayValue = result
-        }
-        else {
-            displayValue = 0
+        if displayValue != nil {
+            if let result = brain.pushOperand(displayValue!) {
+                displayValue = result
+            }
+            else {
+                displayValue = nil
+            }
         }
     }
     
     @IBAction func clear() {
         userIsInTheMiddleOfTypingANumber = false
         isDecimalAlreadyInNumber = false
-        display.text = "0"
+        display.text = ""
         opHistoryDisplay.text = ""
         
         brain.reset()
     }
     
-    var displayValue: Double {
+    @IBAction func setMVariable() {
+        if displayValue != nil {
+            brain.variableValues["M"] = displayValue!
+        }
+        
+        userIsInTheMiddleOfTypingANumber = false
+    }
+    
+    @IBAction func pressMVariable() {
+        if let result = brain.pushOperand("M") {
+            displayValue = result
+        }
+        else {
+            displayValue = nil
+        }
+    }
+    
+    var displayValue: Double? {
         get {
-            // Set empty decimal input to zero to prevent NSNumberFormatter errors
-            if display.text! == "." {
-                display.text = "0"
+            // Set text to a valid value if the display text is not a valid value
+            if display.text != nil {
+                let decimal = Double(display.text!)
+                if decimal != nil {
+                    //let value = NSNumberFormatter().numberFromString(display.text!)!
+                    //return value.doubleValue
+                    return decimal!
+                }
+                else {
+                    return nil
+                }
             }
-            //print("Text: " + display.text!)
-            return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
+            else {
+                return nil
+            }
         }
         set {
-            display.text = "\(newValue)"
             userIsInTheMiddleOfTypingANumber = false
+            if newValue != nil {
+                display.text = "\(newValue!)"
+            }
+            else {
+                display.text = ""
+            }
         }
     }
 }
